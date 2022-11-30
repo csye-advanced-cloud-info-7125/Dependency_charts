@@ -2145,4 +2145,20 @@ grafana:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "3000"
-        prometheus.io/path: "/metrics" 
+        prometheus.io/path: "/metrics"
+
+cluster-autoscaler:
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8085"
+    prometheus.io/path: "/metrics"
+  autoscalingGroups:
+    - name: nodes-us-east-1a.kopscluster.prod.aws.virendrasinghrathore.me
+      maxSize: 6
+      minSize: 3
+    - name: nodes-us-east-1b.kopscluster.prod.aws.virendrasinghrathore.me
+      maxSize: 6
+      minSize: 3
+    - name: nodes-us-east-1c.kopscluster.prod.aws.virendrasinghrathore.me
+      maxSize: 6
+      minSize: 3    
