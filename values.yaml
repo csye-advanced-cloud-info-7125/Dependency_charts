@@ -2161,4 +2161,22 @@ cluster-autoscaler:
       minSize: 3
     - name: nodes-us-east-1c.kopscluster.prod.aws.virendrasinghrathore.me
       maxSize: 6
-      minSize: 3    
+      minSize: 3
+  extraArgs:
+    v: 4
+    stderrthreshold: info
+    logtostderr: true
+    skip-nodes-with-local-storage: false
+    scale-down-unneeded-time: 2m
+    scale-down-unready-time: 3m
+    balance-similar-node-groups: true
+    expander: least-waste
+    max-graceful-termination-sec: 200
+    max-inactivity: 2m
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 500m
+      memory: 500Mi    
