@@ -2154,14 +2154,14 @@ cluster-autoscaler:
     prometheus.io/path: "/metrics"
   autoscalingGroups:
     - name: nodes-us-east-1a.kopscluster.prod.aws.virendrasinghrathore.me
-      maxSize: 6
-      minSize: 3
+      maxSize: 2
+      minSize: 1
     - name: nodes-us-east-1b.kopscluster.prod.aws.virendrasinghrathore.me
-      maxSize: 6
-      minSize: 3
+      maxSize: 2
+      minSize: 1
     - name: nodes-us-east-1c.kopscluster.prod.aws.virendrasinghrathore.me
-      maxSize: 6
-      minSize: 3
+      maxSize: 2
+      minSize: 1
   extraArgs:
     v: 4
     stderrthreshold: info
