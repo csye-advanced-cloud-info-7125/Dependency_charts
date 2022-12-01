@@ -25,10 +25,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -43,7 +45,8 @@ service:
 ingress:
   enabled: false
   className: ""
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -56,7 +59,8 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -91,18 +95,10 @@ kafka:
   autoCreateTopicsEnable: false
   service:
     type: LoadBalancer
-  provisioning:
   zookeeper:
     enabled: true
-    replicaCount: 3 
+    replicaCount: 3
   metrics:
-    jmx:
-      enabled: true
-      service:
-        annotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/port: "{{ .Values.metrics.jmx.service.ports.metrics }}"
-          prometheus.io/path: "/metrics"  
     kafka:
       enabled: true
       image:
@@ -115,12 +111,7 @@ kafka:
         annotations:
           prometheus.io/scrape: "true"
           prometheus.io/port: "{{ .Values.metrics.kafka.service.ports.metrics }}"
-          prometheus.io/path: "/metrics"     
-      enabled: true
-      numPartitions: 2
-      defaultReplicationFactor: 2
-      deleteTopicEnable: true
-      autoCreateTopicsEnable: false  
+          prometheus.io/path: "/metrics"
   provisioning:
     ## @param provisioning.enabled Enable kafka provisioning Job
     ##
@@ -134,7 +125,7 @@ kafka:
     topics:
       - name: todosummary
         partitions: 2
-        replicationFactor: 2
+        replicationFactor: 1
         config:
           max.message.bytes: 64000
           flush.messages: 1
@@ -149,10 +140,8 @@ metrics-server:
 prometheus:
   rbac:
     create: true
-
   podSecurityPolicy:
     enabled: false
-
   imagePullSecrets:
   # - name: "image-pull-secret"
 
@@ -174,7 +163,6 @@ prometheus:
     server:
       create: true
       name:
-
   alertmanager:
     ## If false, alertmanager will not be installed
     ##
@@ -1991,12 +1979,16 @@ prometheus:
               action: replace
               regex: (https?)
               target_label: __scheme__
-            - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            - source_labels:
+                [__meta_kubernetes_pod_annotation_prometheus_io_path]
               action: replace
               target_label: __metrics_path__
               regex: (.+)
             - source_labels:
-                [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+                [
+                  __address__,
+                  __meta_kubernetes_pod_annotation_prometheus_io_port,
+                ]
               action: replace
               regex: (.+?)(?::\d+)?;(\d+)
               replacement: $1:$2
@@ -2046,12 +2038,16 @@ prometheus:
               action: replace
               regex: (https?)
               target_label: __scheme__
-            - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            - source_labels:
+                [__meta_kubernetes_pod_annotation_prometheus_io_path]
               action: replace
               target_label: __metrics_path__
               regex: (.+)
             - source_labels:
-                [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+                [
+                  __address__,
+                  __meta_kubernetes_pod_annotation_prometheus_io_port,
+                ]
               action: replace
               regex: (.+?)(?::\d+)?;(\d+)
               replacement: $1:$2
@@ -2152,6 +2148,8 @@ cluster-autoscaler:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8085"
     prometheus.io/path: "/metrics"
+  awsAccessKeyID: AKIAVF6G6JOMAOJLBIMU
+  awsSecretAccessKey: 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
   autoscalingGroups:
     - name: nodes-us-east-1a.kopscluster.prod.aws.virendrasinghrathore.me
       maxSize: 2
@@ -2170,7 +2168,6 @@ cluster-autoscaler:
     scale-down-unneeded-time: 2m
     scale-down-unready-time: 3m
     balance-similar-node-groups: true
-    expander: least-waste
     max-graceful-termination-sec: 200
     max-inactivity: 2m
   resources:
@@ -2179,4 +2176,4 @@ cluster-autoscaler:
       memory: 500Mi
     requests:
       cpu: 500m
-      memory: 500Mi    
+      memory: 500Mi
