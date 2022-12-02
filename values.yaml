@@ -88,6 +88,14 @@ affinity: {}
 elasticsearch:
   global:
     kibanaEnabled: true
+  
+  metrics:
+    enabled: true
+
+    podAnnotations: 
+      prometheus.io/scrape: "true"
+      prometheus.io/path: "/metrics"
+      prometheus.io/port: "9000"
 
 kafka:
   replicaCount: 3
@@ -2180,3 +2188,14 @@ cluster-autoscaler:
 
 elasticsearch-app:
   clusterName: "elasticsearch-app"
+
+  global:
+    kibanaEnabled: true
+  
+  metrics:
+    enabled: true
+
+    podAnnotations: 
+      prometheus.io/scrape: "true"
+      prometheus.io/path: "/metrics"
+      prometheus.io/port: "9000"
