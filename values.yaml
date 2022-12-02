@@ -2148,8 +2148,8 @@ cluster-autoscaler:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8085"
     prometheus.io/path: "/metrics"
-  awsAccessKeyID: AKIAVF6G6JOMAOJLBIMU
-  awsSecretAccessKey: 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
+  awsAccessKeyID: 
+  awsSecretAccessKey: 
   autoscalingGroups:
     - name: nodes-us-east-1a.kopscluster.prod.aws.virendrasinghrathore.me
       maxSize: 2
@@ -2177,3 +2177,6 @@ cluster-autoscaler:
     requests:
       cpu: 500m
       memory: 500Mi
+
+elasticsearch-app:
+  clusterName: "elasticsearch-app"
